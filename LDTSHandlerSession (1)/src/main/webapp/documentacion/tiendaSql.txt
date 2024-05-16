@@ -1,0 +1,44 @@
+tienda.sql
+
+DROP SCHEMA IF EXISTS Tienda;
+
+CREATE SCHEMA Tienda;
+
+USE Tienda;
+
+CREATE TABLE Usuarios(
+    id_usuario INT(11) PRIMARY KEY AUTO_INCREMENT,
+    usuarios  varchar(25) NOT NULL,
+    contrasenia varbinary(255) NOT NULL,
+    FechaContratacion date
+
+)ENGINE=InnoDB;
+
+CREATE TABLE Compras(
+    id_compra INT(11) PRIMARY KEY AUTO_INCREMENT,
+    nombre_producto VARCHAR(255) NOT NULL,
+    cantidad INT(11) NOT NULL,
+    precio DECIMAL NOT NULL,
+    usuario_id INT(11),
+    FechaHora TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT Compras_usuarios_FK FOREIGN KEY(usuario_id) REFERENCES Usuarios (id_usuario)
+
+)ENGINE=InnoDB;
+
+CREATE TABLE Compras_has_Productos(
+    id_chp INT(11) PRIMARY KEY AUTO_INCREMENT,
+    Cantidad INT(11) NOT NULL,
+    PrecioUnidad DECIMAL NOT NULL,
+    compra_id INT(11) NOT NULL,
+    producto_id INT(11) NOT NULL,
+    CONSTRAINT chp_compras_FK FOREIGN KEY (compra_id) REFERENCES Compras (id_compra),
+    CONSTRAINT chp_productos_FK FOREIGN KEY (producto_id) REFERENCES Productos (id_producto)
+
+)ENGINE=InnoDB;
+
+CREATE TABLE Productos(
+    id_producto INT(11) PRIMARY KEY AUTO_INCREMENT,
+    nombre VARCHAR(25) NOT NULL,
+    PVP DECIMAL NOT NULL,
+    Cantidad INT(11) NOT NULL
+)ENGINE=InnoDB;
